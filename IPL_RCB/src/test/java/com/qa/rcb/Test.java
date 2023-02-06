@@ -13,6 +13,7 @@ public class Test {
   public void  rcbTest(){
     JSONParser parser = new JSONParser();
     int nonIndianPlayersCount = 0;
+    boolean isWicketKeeperPresent=false;
 
     try {
       Object obj = parser.parse(new FileReader(System.getProperty("user.dir")+"/src/test/resources/TeamRCB.json"));
@@ -29,6 +30,20 @@ public class Test {
       }
       
       Assert.assertEquals(nonIndianPlayersCount, 4);
+      
+      
+      //To check wicket-keeper is present
+      for (Object player : playersArray) {
+        JSONObject playerObject = (JSONObject) player;
+        String role = (String) playerObject.get("role");
+        if (role.equals("Wicket-keeper")) {
+        	isWicketKeeperPresent=true;
+        	break;
+
+        }
+      }
+      
+      Assert.assertTrue(isWicketKeeperPresent);
       
     } catch (IOException | ParseException e) {
       e.printStackTrace();
